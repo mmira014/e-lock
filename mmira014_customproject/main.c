@@ -23,10 +23,7 @@ enum Servo_state{servo_idle, servo_lock, servo_unlock} servo;
 enum Bluetooth_States{Bluetooth_Init, Bluetooth_Wait, Bluetooth_Arm, Bluetooth_Disarm};
 int Bluetooth_tick(int Bluetooth_State)
 {
-	initUSART(0);
-	unsigned char signal = 0;
-	signal = USART_Receive(0) & 0x03;
-	signal = 1;
+	
 	
 	switch(Bluetooth_State)
 	{
@@ -35,6 +32,9 @@ int Bluetooth_tick(int Bluetooth_State)
 			break;
 			
 		case Bluetooth_Wait:
+			initUSART(0);
+			unsigned char signal = 0;
+			signal = USART_Receive(0) & 0x03;
 			if(signal == 2) // button is green (armed)
 			{
 				Bluetooth_State = Bluetooth_Arm;
@@ -47,6 +47,7 @@ int Bluetooth_tick(int Bluetooth_State)
 			{
 				Bluetooth_State = Bluetooth_Wait;
 			}
+			USART_Flush(0);
 			break;
 			
 		case Bluetooth_Arm:
@@ -223,7 +224,7 @@ int Combine_tick(int Combine_State)
 					break;
 					
 				/*
-				* To use Waveform Generation Mode 14 (fast PWM), we must set:
+				* To use Waveform Generation Mode 14 (fast PWM), the following must be set:
 					WGM13 = 1
 					WGM12 = 1
 					WGM11 = 1
@@ -248,6 +249,8 @@ int Combine_tick(int Combine_State)
 					ICR1 = 19999;
 					OCR1A = 16500;
 					PORTA = 0xFF;
+					_delay_ms(3000);
+					/*
 					_delay_ms(100);
 					_delay_ms(100);
 					_delay_ms(100);
@@ -263,7 +266,7 @@ int Combine_tick(int Combine_State)
 					_delay_ms(100);
 					_delay_ms(100);
 					_delay_ms(100);
-					
+					*/
 					//TimerSet(100);
 					TimerOn();
 					break;
@@ -276,6 +279,8 @@ int Combine_tick(int Combine_State)
 					TCCR1B |= 1<<WGM13 | 1<<WGM12 | 1<<CS10;
 					ICR1 = 19999;
 					OCR1A = 6000;
+					_delay_ms(3000);
+					/*
 					_delay_ms(100);
 					_delay_ms(100);
 					_delay_ms(100);
@@ -291,7 +296,7 @@ int Combine_tick(int Combine_State)
 					_delay_ms(100);
 					_delay_ms(100);
 					_delay_ms(100);
-					
+					*/
 					//TimerSet(100);
 					TimerOn();
 					break;
@@ -308,9 +313,9 @@ int Combine_tick(int Combine_State)
 	return Combine_State;
 }
 
-unsigned long Bluetooth_period = 500;
+unsigned long Bluetooth_period = 200;
 unsigned long Servo_period = 100;
-unsigned long LCD_period = 200;
+unsigned long LCD_period = 100;
 unsigned long Combine_period  = 50;
 unsigned long tasksGCD_period = 50; //findGCD(findGCD(findGCD(Bluetooth_period, Servo_period), LCD_period), Combine_period);
 	
