@@ -2,7 +2,7 @@
  * mmira014_customproject.c
  *
  * Created: 3/5/2018 10:07:23 AM
- * Author : Marcos
+ * Author : Marcos M
  */ 
 
 #include <avr/io.h>
@@ -210,17 +210,16 @@ int Combine_tick(int Combine_State)
 			
 		case Combine_Execute:
 			// display string
-			/*
+			nokia_lcd_init();
 			nokia_lcd_clear();
 			nokia_lcd_set_cursor(0,8);
-			nokia_lcd_write_string(status_str, 2);
+			nokia_lcd_write_string(status_str, 1);
 			nokia_lcd_render();
-			*/
+			
 			// do servo stuff
 			switch (servo)
 			{
 				case servo_idle:
-					PORTA = 0x01;
 					break;
 					
 				/*
@@ -248,61 +247,23 @@ int Combine_tick(int Combine_State)
 					TCCR1B |= 1<<WGM13 | 1<<WGM12 | 1<<CS10;
 					ICR1 = 19999;
 					OCR1A = 16500;
-					PORTA = 0xFF;
 					_delay_ms(3000);
-					/*
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					*/
-					//TimerSet(100);
 					TimerOn();
 					break;
 					
 				case servo_unlock:
 					//rotate clockwise to unlocked position
 					TimerOff();
-					PORTA = 0x0F;
 					TCCR1A |= 1<<WGM11 | 1<<COM1A1 | 1<<COM1A0;
 					TCCR1B |= 1<<WGM13 | 1<<WGM12 | 1<<CS10;
 					ICR1 = 19999;
 					OCR1A = 6000;
 					_delay_ms(3000);
-					/*
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					_delay_ms(100);
-					*/
-					//TimerSet(100);
 					TimerOn();
 					break;
 					
 				default:
-					PORTA = 0x03;
+					//PORTA = 0x03;
 					break;
 			}
 			break;
@@ -316,8 +277,8 @@ int Combine_tick(int Combine_State)
 unsigned long Bluetooth_period = 200;
 unsigned long Servo_period = 100;
 unsigned long LCD_period = 100;
-unsigned long Combine_period  = 50;
-unsigned long tasksGCD_period = 50; //findGCD(findGCD(findGCD(Bluetooth_period, Servo_period), LCD_period), Combine_period);
+unsigned long Combine_period  = 100;
+unsigned long tasksGCD_period = 100; //findGCD(findGCD(findGCD(Bluetooth_period, Servo_period), LCD_period), Combine_period);
 	
 
 int main(void)
@@ -325,7 +286,6 @@ int main(void)
 	// Servo on PD5, bluetooth module on PD0, PD1
 	// nokia lcd on PB
 	// leds on PA
-	DDRA = 0xFF; PORTA = 0xFF;
 	DDRD = 0xF0; PORTD = 0x00;
 	DDRB = 0xFF; PORTB = 0x00;
 	nokia_lcd_init();
@@ -375,4 +335,3 @@ int main(void)
 		TimerFlag = 0;
     }
 }
-
