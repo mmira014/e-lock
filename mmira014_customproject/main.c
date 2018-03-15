@@ -23,8 +23,6 @@ enum Servo_state{servo_idle, servo_lock, servo_unlock} servo;
 enum Bluetooth_States{Bluetooth_Init, Bluetooth_Wait, Bluetooth_Arm, Bluetooth_Disarm};
 int Bluetooth_tick(int Bluetooth_State)
 {
-	
-	
 	switch(Bluetooth_State)
 	{
 		case Bluetooth_Init:
@@ -263,7 +261,6 @@ int Combine_tick(int Combine_State)
 					break;
 					
 				default:
-					//PORTA = 0x03;
 					break;
 			}
 			break;
@@ -278,14 +275,12 @@ unsigned long Bluetooth_period = 200;
 unsigned long Servo_period = 100;
 unsigned long LCD_period = 100;
 unsigned long Combine_period  = 100;
-unsigned long tasksGCD_period = 100; //findGCD(findGCD(findGCD(Bluetooth_period, Servo_period), LCD_period), Combine_period);
+unsigned long tasksGCD_period = 100; 
 	
-
 int main(void)
 {
 	// Servo on PD5, bluetooth module on PD0, PD1
-	// nokia lcd on PB
-	// leds on PA
+	// nokia lcd on PORTB
 	DDRD = 0xF0; PORTD = 0x00;
 	DDRB = 0xFF; PORTB = 0x00;
 	nokia_lcd_init();
@@ -298,7 +293,7 @@ int main(void)
     unsigned char tasksNum = 4;
     unsigned char i = 0;
     task tasks[tasksNum];
-	// tasks { bluetooth, lcd, servo, combine }
+    // tasks are { bluetooth, lcd, servo, combine }
     tasks[i].state = Bluetooth_Init;
 	tasks[i].period = Bluetooth_period;
 	tasks[i].elapsedTime = tasks[i].period;
@@ -319,7 +314,6 @@ int main(void)
 	tasks[i].elapsedTime = tasks[i].period;
 	tasks[i].TickFct = &Combine_tick;
 	
-	PORTA = 0x08;
     while (1) 
     {
 		for(i = 0; i < tasksNum; ++i)
