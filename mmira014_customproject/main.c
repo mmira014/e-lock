@@ -16,6 +16,7 @@
 #include "nokia5110.c"
 
 char status_str[] = "UNARMED";
+unsigned char lock_str = 0;
 unsigned char action = 0;
 enum Status_state{unarmed, armed} status;
 enum Servo_state{servo_idle, servo_lock, servo_unlock} servo;
@@ -23,8 +24,6 @@ enum Servo_state{servo_idle, servo_lock, servo_unlock} servo;
 enum Bluetooth_States{Bluetooth_Init, Bluetooth_Wait, Bluetooth_Arm, Bluetooth_Disarm};
 int Bluetooth_tick(int Bluetooth_State)
 {
-	
-	
 	switch(Bluetooth_State)
 	{
 		case Bluetooth_Init:
@@ -172,10 +171,12 @@ int LCD_tick(int LCD_State)
 		case LCD_SetString:
 			if(status == armed)
 			{
-				strcpy(status_str, "ARMED");
+				lock_str = 1;
+				strcpy(status_str, " ARMED");
 			}
 			else
 			{
+				lock_str = 0;
 				strcpy(status_str, "UNARMED");
 			}
 			break;
@@ -212,7 +213,9 @@ int Combine_tick(int Combine_State)
 			// display string
 			nokia_lcd_init();
 			nokia_lcd_clear();
-			nokia_lcd_set_cursor(0,8);
+			
+			nokia_lcd_write_lock(lock_str);
+			nokia_lcd_set_cursor(17,40);
 			nokia_lcd_write_string(status_str, 1);
 			nokia_lcd_render();
 			

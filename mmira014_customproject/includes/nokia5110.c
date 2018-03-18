@@ -201,3 +201,150 @@ void nokia_lcd_render(void)
 	for (i = 0; i < 504; i++)
 		write_data(nokia_lcd.screen[i]);
 }
+
+void nokia_lcd_write_lock(unsigned char lock)
+{
+	if(!lock)
+	{
+		// create unlocked symbol
+		// create box
+		for(unsigned char i = 5; i < 30; ++i) // horizontal pixels
+		{
+			for(unsigned char j = 0; j < 20; ++j) // vertical pixels
+			{
+				nokia_lcd_set_pixel(20+i,15+j,1);
+			}
+		}
+		
+		//create keyhole
+		for(unsigned char j = 0; j < 6; ++j)
+		{
+			for(unsigned char i = 0; i < 3; ++i)
+			{
+				nokia_lcd_set_pixel(36 + i, 22 + j, 0);
+			}
+		}
+		
+		// create 'C'
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(25+j, 10+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(27+j, 5+i, 1);
+			}
+		}
+		
+		for(unsigned char i = 0; i < 5; ++i)
+		{
+			for(unsigned char j = 0; j < 3; ++j)
+			{
+				nokia_lcd_set_pixel(30+j, 2+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 3; ++i)
+		{
+			for(unsigned char j = 0; j < 9; ++j)
+			{
+				nokia_lcd_set_pixel(32+j, 1+i, 1);
+			}
+		}
+		
+		
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(41+j, 2+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(42+j, 4+i, 1);
+			}
+		}
+	}
+	else
+	{
+		// create locked symbol
+		// create box
+		for(unsigned char i = 5; i < 30; ++i) // horizontal pixels
+		{
+			for(unsigned char j = 0; j < 20; ++j) // vertical pixels
+			{
+				nokia_lcd_set_pixel(20+i,15+j,1);
+			}
+		}
+		
+		//create keyhole
+		for(unsigned char j = 0; j < 6; ++j)
+		{
+			for(unsigned char i = 0; i < 3; ++i)
+			{
+				nokia_lcd_set_pixel(36 + i, 22 + j, 0);
+			}
+		}
+		
+		// create 'C'
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(25+j, 10+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(27+j, 5+i, 1);
+			}
+		}
+		
+		for(unsigned char i = 0; i < 5; ++i)
+		{
+			for(unsigned char j = 0; j < 3; ++j)
+			{
+				nokia_lcd_set_pixel(30+j, 2+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 3; ++i)
+		{
+			for(unsigned char j = 0; j < 10; ++j)
+			{
+				nokia_lcd_set_pixel(32+j, 1+i, 1);
+			}
+		}
+		
+		
+		for(unsigned char i = 0; i < 5; ++i)
+		{
+			for(unsigned char j = 0; j < 3; ++j)
+			{
+				nokia_lcd_set_pixel(42+j, 2+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(44+j, 4+i, 1);
+			}
+		}
+		for(unsigned char i = 0; i < 6; ++i)
+		{
+			for(unsigned char j = 0; j < 4; ++j)
+			{
+				nokia_lcd_set_pixel(46+j, 10+i, 1);
+			}
+		}
+	}
+}

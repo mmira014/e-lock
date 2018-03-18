@@ -53,7 +53,7 @@ void nokia_lcd_power(uint8_t on);
 
 /**
  * Set single pixel
- * @x: horizontal pozition
+ * @x: horizontal position
  * @y: vertical position
  * @value: show/hide pixel
  */
@@ -85,5 +85,10 @@ void nokia_lcd_set_cursor(uint8_t x, uint8_t y);
  */
 void nokia_lcd_render(void);
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+// custom lock symbol function:
+// creates lock graphics
+void nokia_lcd_write_lock(unsigned char lock);
 
 #endif
