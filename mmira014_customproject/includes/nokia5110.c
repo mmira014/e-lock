@@ -202,6 +202,9 @@ void nokia_lcd_render(void)
 		write_data(nokia_lcd.screen[i]);
 }
 
+///////////////////////////////// END OF PREMADE LIBRARY ////////////////////////////////////////////////////
+
+// custom lock graphics:
 void nokia_lcd_write_lock(unsigned char lock)
 {
 	if(!lock)
